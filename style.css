@@ -8,6 +8,18 @@
   #output-area,
   #output-area * {
     visibility: visible;
+    width: 100vw;
+  }
+
+  #output-area table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  #output-area th,
+  td {
+    border: 1px solid #000;
+    padding: 8px;
   }
 
   /* Position the printable area at the top left of the physical page */
