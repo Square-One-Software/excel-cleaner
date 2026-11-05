@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Excel Clener</title>
 </head>
 <body>
@@ -10,8 +11,11 @@
         Insert a file
     </h1>
     <input type="file" accept=".xls, .xlsm, .xlsx" id="file-uploader">
-    <div id="output-area"></div>
-
+    <div>
+         <div id="output-area"></div>
+         <button onclick="window.print()">Print</button>
+    </div>
+   
     <!-- use version 0.20.3 -->
     <script type="text/javascript" src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
     <script type="text/javascript" src="app.js"></script> 

@@ -1,0 +1,19 @@
+@media print {
+  /* Hide everything on the body */
+  body * {
+    visibility: hidden;
+  }
+
+  /* Make the target area and its children visible */
+  #output-area,
+  #output-area * {
+    visibility: visible;
+  }
+
+  /* Position the printable area at the top left of the physical page */
+  #output-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+}
