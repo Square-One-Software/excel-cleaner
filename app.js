@@ -10,6 +10,32 @@ function fillEmptySlotsWithFallBack(arr, fallback) {
   });
 }
 
+function convertAllSheets2Json(wb) {
+  const jsonArr = [];
+  for (sheet of wb.SheetNames) {
+    const jsonData = XLSX.utils.sheet_to_json(wb.Sheets[sheet], {header: 1});
+    jsonArr.push(jsonData);
+  }
+  return jsonArr;
+}
+
+function extractPagedData(pagedData, headerOnly = false) {
+  const extractedData = [];
+  console.log(pagedData);
+  for (index in pagedData) {
+    if (headerOnly) {
+      const headerArr = pagedData[index][0];
+      const sheetHeaders = fillEmptySlotsWithFallBack(headerArr, colFallback);
+      console.log(sheetHeaders);
+      extractedData.push(sheetHeaders);
+    } else {
+      const rowData = pagedData[index].splice(1).map((r) => fillEmptySlotsWithFallBack(r, valFallback));
+      extractedData.push(rowData);
+    }
+  }
+  return extractedData;
+}
+
 fileInput.onchange = async (e) => {
   const file = e.target.files[0];
   if (!file) return;
