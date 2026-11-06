@@ -1,11 +1,31 @@
 // element selection and global states
 const fileInput = document.getElementById("file-uploader");
 const outputArea = document.getElementById("output-area");
+const selectionArea = document.getElementById("selection-area");
 
 const colFallback = "N/A";
 const valFallback = " ";
 const TARGETS = []; // array of arrys
 const WS_DATA = [];
+
+// functions and main logic
+function buildHeaderSelections(headers) {
+  let htmlString = "";
+  for (const header of headers) {
+    htmlString = htmlString.concat(`<input type="checkbox" value="${header} id="${header}" /><label for="${header}">${header}</label>`);
+  }
+  return htmlString;
+}
+
+function selectTargets(target, pageIdx) {
+  TARGETS[pageIdx].push(target);
+}
+
+function buildDataTable(data) {
+  const ns = XLSX.utils.aoa_to_sheet(data);
+  const html = XLSX.utils.sheet_to_html(ns);
+  outputArea.innerHTML = html;
+}
 
 function fillEmptySlotsWithFallBack(arr, fallback) {
   return Array.from(arr, (_, i) => {
