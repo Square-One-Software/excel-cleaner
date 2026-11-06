@@ -7,9 +7,11 @@
 const fileInput = document.getElementById("file-uploader");
 const outputArea = document.getElementById("output-area");
 
-function fillEmptySlots(arr) {
+const colFallback = "N/A";
+const valFallback = " ";
+
+function fillEmptySlotsWithFallBack(arr, fallback) {
   return Array.from(arr, (_, i) => {
-    const fallback = " ";
     return !(i in arr) ? fallback : arr[i];
   });
 }
