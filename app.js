@@ -2,6 +2,8 @@
 const fileInput = document.getElementById("file-uploader");
 const outputArea = document.getElementById("output-area");
 const selectionArea = document.getElementById("selection-area");
+const tabBtnsArea = document.getElementById("tab-btn-area");
+const tabContainer = document.getElementById("tab-area");
 
 const colFallback = "N/A";
 const valFallback = " ";
@@ -9,6 +11,41 @@ const TARGETS = []; // array of arrys
 const WS_DATA = [];
 
 // functions and main logic
+function buildDataTab(data, sheetNames) {
+  data.forEach((d, key) => {
+    const tabBtn = document.createElement("button");
+    tabBtn.textContent = sheetNames[key];
+    tabBtn.dataset.tab = sheetNames[key];
+    tabBtn.classList = key === 0 ? "tab active" : "tab";
+    tabBtnsArea.appendChild(tabBtn);
+
+    const tabContent = document.createElement("div");
+    tabContent.classList = key === 0 ? "tab-content active" : "tab-content";
+    tabContent.id = sheetNames[key];
+    tabContent.innerHTML += buildHeaderSelections(d[0]);
+    const output = buildDataTable(d);
+    const tabOutputArea = document.createElement("div");
+    tabOutputArea.id = sheetNames[key];
+    tabOutputArea.innerHTML = output;
+    tabContent.appendChild(tabOutputArea);
+    tabContainer.appendChild(tabContent);
+  });
+
+  const tabs = document.querySelectorAll(".tab");
+  const contents = document.querySelectorAll(".tab-content");
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const target = tab.dataset.tab;
+
+      tabs.forEach((t) => t.classList.remove("active"));
+      contents.forEach((c) => c.classList.remove("active"));
+
+      tab.classList.add("active");
+      document.getElementById(target).classList.add("active");
+    });
+  });
+}
+
 function buildHeaderSelections(headers) {
   let htmlString = "";
   for (const header of headers) {
@@ -24,7 +61,7 @@ function selectTargets(target, pageIdx) {
 function buildDataTable(data) {
   const ns = XLSX.utils.aoa_to_sheet(data);
   const html = XLSX.utils.sheet_to_html(ns);
-  outputArea.innerHTML = html;
+  return html;
 }
 
 function fillEmptySlotsWithFallBack(arr, fallback) {
@@ -64,22 +101,18 @@ fileInput.onchange = async (e) => {
   try {
     const fileBuffer = await file.arrayBuffer();
     const wb = XLSX.read(fileBuffer);
-    const ws = wb.Sheets[wb.SheetNames[0]];
 
-    const jsonData = XLSX.utils.sheet_to_json(ws, {header: 1}); // -> arr of json | [0] = header
+    convertAllSheets2Json(wb);
 
-    let cleanedData = jsonData.map((data) => fillEmptySlots(data));
-    const targets = ["身份证", "地址"];
-    const idxs = targets.map((t) => cleanedData[0].indexOf(t));
+    const headers = extractPagedData(WS_DATA, true);
+    const rows = extractPagedData(WS_DATA);
 
-    cleanedData = cleanedData.reduce((acc, curr) => {
-      const filteredData = curr.filter((_, index) => !idxs.includes(index));
-      return [...acc, filteredData];
+    const filteredData = headers.reduce((acc, curr, idx) => {
+      const joinedData = [curr, ...rows[idx]];
+      return [...acc, joinedData];
     }, []);
 
-    const ns = XLSX.utils.aoa_to_sheet(cleanedData);
-    const html = XLSX.utils.sheet_to_html(ns);
-    outputArea.innerHTML = html;
+    buildDataTab(filteredData, wb.SheetNames);
   } catch (error) {
     console.log(error);
   }
