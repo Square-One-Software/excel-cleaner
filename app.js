@@ -1,9 +1,3 @@
-/*
-    poc
-    input excel file > parse, remove some PII, and show as html table > make it nice and printable for printing!
-    use sheetJS library for parsing excel
-*/
-
 const fileInput = document.getElementById("file-uploader");
 const outputArea = document.getElementById("output-area");
 
