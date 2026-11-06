@@ -1,8 +1,11 @@
+// element selection and global states
 const fileInput = document.getElementById("file-uploader");
 const outputArea = document.getElementById("output-area");
 
 const colFallback = "N/A";
 const valFallback = " ";
+const TARGETS = []; // array of arrys
+const WS_DATA = [];
 
 function fillEmptySlotsWithFallBack(arr, fallback) {
   return Array.from(arr, (_, i) => {
@@ -11,12 +14,10 @@ function fillEmptySlotsWithFallBack(arr, fallback) {
 }
 
 function convertAllSheets2Json(wb) {
-  const jsonArr = [];
-  for (sheet of wb.SheetNames) {
+  for (const sheet of wb.SheetNames) {
     const jsonData = XLSX.utils.sheet_to_json(wb.Sheets[sheet], {header: 1});
-    jsonArr.push(jsonData);
+    WS_DATA.push(jsonData);
   }
-  return jsonArr;
 }
 
 function extractPagedData(pagedData, headerOnly = false) {
