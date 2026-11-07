@@ -79,12 +79,10 @@ function convertAllSheets2Json(wb) {
 
 function extractPagedData(pagedData, headerOnly = false) {
   const extractedData = [];
-  console.log(pagedData);
   for (index in pagedData) {
     if (headerOnly) {
       const headerArr = pagedData[index][0];
       const sheetHeaders = fillEmptySlotsWithFallBack(headerArr, colFallback);
-      console.log(sheetHeaders);
       extractedData.push(sheetHeaders);
     } else {
       const rowData = pagedData[index].splice(1).map((r) => fillEmptySlotsWithFallBack(r, valFallback));
