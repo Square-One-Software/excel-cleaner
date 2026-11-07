@@ -11,21 +11,16 @@
         Insert a file
     </h1>
     <input type="file" accept=".xls, .xlsm, .xlsx" id="file-uploader">
-    <div id="selection-area"></div>
     <div>
          <div id="output-area"></div>
          <button onclick="window.print()">Print</button>
     </div>
    
-    <div class="tab-container" id="tab-area">
+    <div class="tab-container hidden" id="tab-area">
         <div class="tabs" id="tab-btn-area">
-            <!-- <button class="tab active" data-tab="home">Home</button>
-            <button class="tab" data-tab="about">About</button>
-            <button class="tab" data-tab="contact">Contact</button> -->
         </div>
 
     </div>
-    <!-- use version 0.20.3 -->
     <script type="text/javascript" src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
     <script type="text/javascript" src="app.js"></script> 
 </body>

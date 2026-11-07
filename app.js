@@ -112,6 +112,7 @@ fileInput.onchange = async (e) => {
       return [...acc, joinedData];
     }, []);
 
+    tabContainer.classList.remove("hidden");
     buildDataTab(filteredData, wb.SheetNames);
   } catch (error) {
     console.log(error);
