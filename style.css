@@ -2,38 +2,6 @@ body {
   margin: 0;
 }
 
-@media print {
-  /* Hide everything on the body */
-  body * {
-    visibility: hidden;
-  }
-
-  /* Make the target area and its children visible */
-  #output-area,
-  #output-area * {
-    visibility: visible;
-    width: 100vw;
-  }
-
-  #output-area table {
-    border-collapse: collapse;
-    width: 100%;
-  }
-
-  #output-area th,
-  td {
-    border: 1px solid #000;
-    padding: 8px;
-  }
-
-  /* Position the printable area at the top left of the physical page */
-  #output-area {
-    position: absolute;
-    left: 0;
-    top: 0;
-  }
-}
-
 .tab-container {
   margin: 2rem auto;
   font-family: sans-serif;
@@ -80,4 +48,47 @@ body {
 
 .hidden {
   display: none;
+}
+
+@media print {
+  /* Hide everything */
+  body * {
+    visibility: hidden;
+  }
+
+  /* Make the active tab AND all its descendants visible */
+  .tab-content.active,
+  .tab-content.active * {
+    visibility: visible;
+  }
+
+  /* Position it at the top of the page */
+  .tab-content.active {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    display: block; /* override the normal display:none */
+  }
+
+  /* Table styling (fixed selector) */
+  .tab-content.active table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  .tab-content.active th,
+  .tab-content.active td {
+    border: 1px solid #000;
+    padding: 8px;
+  }
+
+  /* Hide the tab buttons themselves and select group */
+  .tabs {
+    display: none !important;
+  }
+
+  .tab-content.active input,
+  .tab-content.active label {
+    display: none !important;
+  }
 }
