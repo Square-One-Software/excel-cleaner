@@ -1,5 +1,7 @@
 // element selection and global states
 const fileInput = document.getElementById("file-uploader");
+const fileNameLabel = document.getElementById("file-name");
+const btnChoose = document.getElementById("btn-choose");
 const outputArea = document.getElementById("output-area");
 const selectionArea = document.getElementById("selection-area");
 const tabBtnsArea = document.getElementById("tab-btn-area");
@@ -92,9 +94,14 @@ function extractPagedData(pagedData, headerOnly = false) {
   return extractedData;
 }
 
+btnChoose.addEventListener("click", () => fileInput.click());
+
 fileInput.onchange = async (e) => {
   const file = e.target.files[0];
   if (!file) return;
+
+  fileNameLabel.textContent = file.name;
+  fileNameLabel.classList.add("has-file");
 
   try {
     const fileBuffer = await file.arrayBuffer();
