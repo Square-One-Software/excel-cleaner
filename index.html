@@ -9,9 +9,15 @@
 <body>
     <div class="main">
         <h1>Excel Cleaner</h1>
-        <input type="file" accept=".xls, .xlsm, .xlsx" id="file-uploader">
-        <div>
-            <button onclick="window.print()">Print</button>
+        <div class="upload-bar">
+            <label for="file-uploader" class="upload-bar__face">
+                <span class="upload-bar__text" id="file-name">Choose an Excel file</span>
+            </label>
+            <input type="file" accept=".xls, .xlsm, .xlsx" id="file-uploader" class="upload-bar__input">
+        </div>
+        <div class="actions">
+            <button type="button" class="btn" id="btn-choose">Choose file</button>
+            <button type="button" class="btn" onclick="window.print()">Print</button>
         </div>
     </div>
    
