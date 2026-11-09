@@ -10,7 +10,7 @@ const tabContainer = document.getElementById("tab-area");
 const colFallback = "N/A";
 const valFallback = " ";
 const TARGETS = []; // array of arrys
-const WS_DATA = [];
+let WS_DATA = [];
 
 // functions and main logic
 function buildDataTab(data, sheetNames) {
@@ -28,11 +28,9 @@ function buildDataTab(data, sheetNames) {
     TARGETS.push([]); // set selection input state
     tabContent.appendChild(buildHeaderSelections(d[0], key));
 
-    WS_DATA.push(d); // set WS_DATA state
-
     const output = buildDataTable(d);
     const tabOutputArea = document.createElement("div");
-    tabOutputArea.id = sheetNames[key];
+    tabOutputArea.id = `tb-${key}`;
     tabOutputArea.innerHTML = output;
     tabContent.appendChild(tabOutputArea);
     tabContainer.appendChild(tabContent);
@@ -74,6 +72,21 @@ function buildHeaderSelections(headers, pageIdx) {
         }
       }
     }
+    // filter out the table data based on updated TARGET
+    const currentData = WS_DATA[pageIdx];
+    const targetIdxs = currentData[0]
+      .map((name, key) => {
+        return TARGETS[pageIdx].includes(name) ? key : -1;
+      })
+      .filter((index) => index !== -1);
+    const filteredData = currentData.reduce((acc, curr) => {
+      const updatedCurr = curr.filter((name, key) => {
+        if (!targetIdxs.includes(key)) return name;
+      });
+      return [...acc, updatedCurr];
+    }, []);
+    const table = document.getElementById(`tb-${pageIdx}`);
+    table.innerHTML = buildDataTable(filteredData);
   });
 
   return form;
@@ -141,6 +154,7 @@ fileInput.onchange = async (e) => {
     }, []);
 
     tabContainer.classList.remove("hidden");
+    WS_DATA = [...filteredData];
     buildDataTab(filteredData, wb.SheetNames);
   } catch (error) {
     console.log(error);
