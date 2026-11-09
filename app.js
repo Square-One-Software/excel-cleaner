@@ -24,7 +24,12 @@ function buildDataTab(data, sheetNames) {
     const tabContent = document.createElement("div");
     tabContent.classList = key === 0 ? "tab-content active" : "tab-content";
     tabContent.id = sheetNames[key];
-    tabContent.innerHTML += buildHeaderSelections(d[0]);
+
+    TARGETS.push([]); // set selection input state
+    tabContent.appendChild(buildHeaderSelections(d[0], key));
+
+    WS_DATA.push(d); // set WS_DATA state
+
     const output = buildDataTable(d);
     const tabOutputArea = document.createElement("div");
     tabOutputArea.id = sheetNames[key];
@@ -48,12 +53,30 @@ function buildDataTab(data, sheetNames) {
   });
 }
 
-function buildHeaderSelections(headers) {
+function buildHeaderSelections(headers, pageIdx) {
+  const form = document.createElement("form");
+  form.id = pageIdx;
+
   let htmlString = "";
   for (const header of headers) {
-    htmlString = htmlString.concat(`<input type="checkbox" value="${header} id="${header}" /><label for="${header}">${header}</label>`);
+    htmlString = htmlString.concat(`<input type="checkbox" value="${header}" id="${header}" /><label for="${header}">${header}</label>`);
   }
-  return htmlString;
+  form.innerHTML = htmlString;
+  form.addEventListener("change", (e) => {
+    if (e.target.type === "checkbox") {
+      const isChecked = e.target.checked;
+      if (isChecked) {
+        selectTargets(e.target.value, pageIdx);
+      } else {
+        const targetIdx = TARGETS[pageIdx].indexOf(e.target.value);
+        if (targetIdx >= 0) {
+          TARGETS[pageIdx].splice(targetIdx, 1);
+        }
+      }
+    }
+  });
+
+  return form;
 }
 
 function selectTargets(target, pageIdx) {
