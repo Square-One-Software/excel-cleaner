@@ -59,18 +59,20 @@ function buildHeaderSelections(headers, pageIdx) {
   for (const header of headers) {
     htmlString = htmlString.concat(`<input type="checkbox" value="${header}" id="${header}" /><label for="${header}">${header}</label>`);
   }
+
   form.innerHTML = htmlString;
-  form.addEventListener("change", (e) => {
-    if (e.target.type === "checkbox") {
-      const isChecked = e.target.checked;
-      if (isChecked) {
-        selectTargets(e.target.value, pageIdx);
-      } else {
-        const targetIdx = TARGETS[pageIdx].indexOf(e.target.value);
-        if (targetIdx >= 0) {
-          TARGETS[pageIdx].splice(targetIdx, 1);
-        }
-      }
+  form.addEventListener("change", (e) => filterAndUpdateTableListener(e, pageIdx));
+  return form;
+}
+
+function filterAndUpdateTableListener(e, pageIdx) {
+  if (e.target.type === "checkbox") {
+    const isChecked = e.target.checked;
+    if (isChecked) {
+      TARGETS[pageIdx].push(e.target.value);
+    } else {
+      const targetIdx = TARGETS[pageIdx].indexOf(e.target.value);
+      if (targetIdx >= 0) TARGETS[pageIdx].splice(targetIdx, 1);
     }
     // filter out the table data based on updated TARGET
     const currentData = WS_DATA[pageIdx];
@@ -87,13 +89,7 @@ function buildHeaderSelections(headers, pageIdx) {
     }, []);
     const table = document.getElementById(`tb-${pageIdx}`);
     table.innerHTML = buildDataTable(filteredData);
-  });
-
-  return form;
-}
-
-function selectTargets(target, pageIdx) {
-  TARGETS[pageIdx].push(target);
+  }
 }
 
 function buildDataTable(data) {
