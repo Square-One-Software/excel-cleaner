@@ -3,8 +3,6 @@ const fileInput = document.getElementById("file-uploader");
 const fileNameLabel = document.getElementById("file-name");
 const btnChoose = document.getElementById("btn-choose");
 const btnPrint = document.getElementById("btn-print");
-const outputArea = document.getElementById("output-area");
-const selectionArea = document.getElementById("selection-area");
 const tabBtnsArea = document.getElementById("tab-btn-area");
 const tabContainer = document.getElementById("tab-area");
 
