@@ -53,11 +53,12 @@ function buildDataTab(data, sheetNames) {
 
 function buildHeaderSelections(headers, pageIdx) {
   const form = document.createElement("form");
+  form.classList.add("form-container");
   form.id = pageIdx;
 
   let htmlString = "";
   for (const header of headers) {
-    htmlString = htmlString.concat(`<input type="checkbox" value="${header}" id="${header}" /><label for="${header}">${header}</label>`);
+    htmlString = htmlString.concat(`<label class="chip"><input type="checkbox" name="field" value="${header}" id="${header}" /> <span>${header}</span> </label>`);
   }
 
   form.innerHTML = htmlString;

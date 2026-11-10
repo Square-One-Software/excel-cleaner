@@ -138,6 +138,57 @@ body {
   display: none;
 }
 
+/* Input Groups */
+.form-container {
+  display: flex;
+  flex-wrap: wrap; /* allows wrapping instead of one long line */
+  gap: 8px; /* consistent breathing room */
+  margin-bottom: 24px;
+}
+
+/* Individual chip */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 999px; /* pill shape */
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  font-size: 13px;
+  color: #334155;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.15s ease;
+}
+
+.chip:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+/* Hide native checkbox but keep it accessible */
+.chip input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Checked state */
+.chip:has(input:checked) {
+  background: #1e293b;
+  border-color: #1e293b;
+  color: white;
+}
+
+/* Optional: small checkmark indicator */
+.chip:has(input:checked)::before {
+  content: "X";
+  font-size: 11px;
+  font-weight: 600;
+}
+
 @media print {
   /* Hide everything */
   body * {
