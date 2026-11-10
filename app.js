@@ -10,7 +10,7 @@ const tabContainer = document.getElementById("tab-area");
 
 const colFallback = "N/A";
 const valFallback = " ";
-const TARGETS = []; // array of arrys
+let TARGETS = []; // array of arrys
 let WS_DATA = [];
 
 btnChoose.addEventListener("click", () => fileInput.click());
@@ -133,10 +133,18 @@ function extractPagedData(pagedData, headerOnly = false) {
   return extractedData;
 }
 
+function resetWorkspace() {
+  TARGETS = [];
+  WS_DATA = [];
+  tabBtnsArea.innerHTML = "";
+  tabContainer.querySelectorAll(".tab-content").forEach((el) => el.remove());
+}
+
 fileInput.onchange = async (e) => {
   const file = e.target.files[0];
-
   if (!file) return;
+
+  resetWorkspace();
 
   fileNameLabel.textContent = file.name;
   fileNameLabel.classList.add("has-file");
