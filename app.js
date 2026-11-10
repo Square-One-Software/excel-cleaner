@@ -2,6 +2,7 @@
 const fileInput = document.getElementById("file-uploader");
 const fileNameLabel = document.getElementById("file-name");
 const btnChoose = document.getElementById("btn-choose");
+const btnPrint = document.getElementById("btn-print");
 const outputArea = document.getElementById("output-area");
 const selectionArea = document.getElementById("selection-area");
 const tabBtnsArea = document.getElementById("tab-btn-area");
@@ -128,13 +129,14 @@ function extractPagedData(pagedData, headerOnly = false) {
 }
 
 btnChoose.addEventListener("click", () => fileInput.click());
+btnPrint.addEventListener("click", () => window.print());
 
 fileInput.onchange = async (e) => {
   const file = e.target.files[0];
   if (!file) return;
-
   fileNameLabel.textContent = file.name;
   fileNameLabel.classList.add("has-file");
+  btnPrint.removeAttribute("disabled");
 
   try {
     const fileBuffer = await file.arrayBuffer();
