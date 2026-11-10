@@ -54,6 +54,7 @@ function buildDataTab(data, sheetNames) {
       document.getElementById(target).classList.add("active");
     });
   });
+  tabContainer.scrollIntoView({behavior: "smooth", block: "nearest"});
 }
 
 function buildHeaderSelections(headers, pageIdx) {
