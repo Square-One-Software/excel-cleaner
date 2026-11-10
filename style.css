@@ -1,12 +1,36 @@
+:root {
+  --text: #202124;
+  --text-secondary: #3c4043;
+  --text-muted: #9aa0a6;
+  --border: #dadce0;
+  --border-soft: #dfe1e5;
+  --surface: #fff;
+  --surface-muted: #f8f9fa;
+  --accent: #1a73e8;
+  --accent-soft: #e8f0fe;
+  --shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+  --font: Arial, sans-serif;
+  --space-1: 8px;
+  --space-2: 12px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+  --radius: 8px;
+  --content-max: 1120px;
+}
+
 body {
   margin: 0;
+  color: var(--text);
+  font-family: var(--font);
+  background: var(--surface);
 }
 
 h1 {
-  margin: 0 0 0.5rem;
-  padding-top: 12vh;
-  color: #202124;
-  font-family: Arial, sans-serif;
+  margin: 0 0 var(--space-3);
+  padding-top: 10vh;
+  color: var(--text);
+  font-family: var(--font);
   font-size: 52px;
   font-weight: 400;
   letter-spacing: -0.5px;
@@ -19,6 +43,8 @@ h1 {
   flex-direction: column;
   align-items: center;
   height: 100%;
+  padding: 0 var(--space-3);
+  box-sizing: border-box;
 }
 
 .upload-bar {
@@ -26,17 +52,17 @@ h1 {
   width: 100%;
   max-width: 584px;
   height: 44px;
-  margin-top: 1rem;
-  border: 1px solid #dfe1e5;
+  margin-top: var(--space-3);
+  border: 1px solid var(--border-soft);
   border-radius: 24px;
-  background: #fff;
+  background: var(--surface);
   box-sizing: border-box;
 }
 
 .upload-bar:hover,
 .upload-bar:focus-within {
-  border-color: #dfe1e5;
-  box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+  border-color: var(--border-soft);
+  box-shadow: var(--shadow);
 }
 
 .upload-bar__face {
@@ -51,15 +77,15 @@ h1 {
 
 .upload-bar__text {
   overflow: hidden;
-  color: #9aa0a6;
-  font-family: Arial, sans-serif;
+  color: var(--text-muted);
+  font-family: var(--font);
   font-size: 16px;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .upload-bar__text.has-file {
-  color: #202124;
+  color: var(--text);
 }
 
 .upload-bar__input {
@@ -75,37 +101,37 @@ h1 {
 
 .actions {
   display: flex;
-  gap: 12px;
+  gap: var(--space-2);
   justify-content: center;
-  margin-top: 18px;
+  margin-top: var(--space-4);
 }
 
 .btn {
   height: 36px;
-  padding: 0 16px;
-  border: 1px solid #f8f9fa;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--surface-muted);
   border-radius: 4px;
-  background: #f8f9fa;
-  color: #3c4043;
-  font-family: Arial, sans-serif;
+  background: var(--surface-muted);
+  color: var(--text-secondary);
+  font-family: var(--font);
   font-size: 14px;
   cursor: pointer;
 }
 
 .btn:hover {
-  border-color: #dadce0;
+  border-color: var(--border);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
 
 .btn:focus {
-  border-color: #4285f4;
+  border-color: var(--accent);
   outline: none;
 }
 
 .btn:disabled {
-  color: #9aa0a6;
-  background: #f8f9fa;
-  border-color: #f8f9fa;
+  color: var(--text-muted);
+  background: var(--surface-muted);
+  border-color: var(--surface-muted);
   box-shadow: none;
   cursor: default;
   pointer-events: none;
@@ -113,45 +139,55 @@ h1 {
 
 .btn:disabled:hover,
 .btn:disabled:focus {
-  border-color: #f8f9fa;
+  border-color: var(--surface-muted);
   box-shadow: none;
   outline: none;
 }
 
 .tab-container {
-  margin: 2rem auto;
-  font-family: sans-serif;
-  background: #fff;
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   width: 100%;
+  max-width: var(--content-max);
+  margin: var(--space-5) auto;
+  padding: var(--space-4);
   box-sizing: border-box;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  font-family: var(--font);
 }
 
 .tabs {
   display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
 }
 
 .tab {
   flex: 1;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
+  min-width: 0;
+  padding: 10px var(--space-3);
   border: none;
-  background: #eee;
   border-radius: 4px;
-  transition: background 0.3s ease;
+  background: var(--surface-muted);
+  color: var(--text-secondary);
+  font-family: var(--font);
+  font-size: 14px;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
 }
 
 .tab:hover {
-  background: #ddd;
+  background: #e8eaed;
 }
 
 .tab.active {
-  background: #333;
-  color: #fff;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 600;
 }
 
 .tab-content {
@@ -166,36 +202,37 @@ h1 {
   display: none;
 }
 
-/* Input Groups */
 .form-container {
   display: flex;
-  flex-wrap: wrap; /* allows wrapping instead of one long line */
-  gap: 8px; /* consistent breathing room */
-  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin-bottom: var(--space-4);
 }
 
-/* Individual chip */
 .chip {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   padding: 8px 14px;
-  border-radius: 999px; /* pill shape */
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
+  border-radius: 999px;
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  font-family: var(--font);
   font-size: 13px;
-  color: #334155;
+  color: var(--text-secondary);
   cursor: pointer;
   user-select: none;
-  transition: all 0.15s ease;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
 }
 
 .chip:hover {
-  background: #f1f5f9;
-  border-color: #cbd5e1;
+  background: #e8eaed;
+  border-color: #c0c4c8;
 }
 
-/* Hide native checkbox but keep it accessible */
 .chip input {
   position: absolute;
   opacity: 0;
@@ -203,53 +240,71 @@ h1 {
   height: 0;
 }
 
-/* Checked state */
 .chip:has(input:checked) {
-  background: #1e293b;
-  border-color: #1e293b;
-  color: white;
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
-/* Optional: small checkmark indicator */
-.chip:has(input:checked)::before {
-  content: "X";
-  font-size: 11px;
+.tab-content table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 14px;
+  color: var(--text);
+}
+
+.tab-content th,
+.tab-content td {
+  border: 1px solid var(--border);
+  padding: 10px 12px;
+  text-align: left;
+}
+
+.tab-content th {
+  background: var(--surface-muted);
+  color: var(--text-secondary);
   font-weight: 600;
 }
 
+.tab-content tr:nth-child(even) td {
+  background: #fafafa;
+}
+
+.chip:has(input:checked)::before {
+  content: "X";
+  font-size: 12px;
+}
+
 @media print {
-  /* Hide everything */
   body * {
     visibility: hidden;
   }
 
-  /* Make the active tab AND all its descendants visible */
   .tab-content.active,
   .tab-content.active * {
     visibility: visible;
   }
 
-  /* Position it at the top of the page */
   .tab-content.active {
     position: absolute;
     left: 0;
     top: 0;
     width: 100%;
-    display: block; /* override the normal display:none */
+    display: block;
   }
 
-  /* Table styling (fixed selector) */
   .tab-content.active table {
     border-collapse: collapse;
     width: 100%;
   }
+
   .tab-content.active th,
   .tab-content.active td {
     border: 1px solid #000;
     padding: 8px;
+    background: transparent;
   }
 
-  /* Hide the tab buttons themselves and select group */
   .tabs {
     display: none !important;
   }
