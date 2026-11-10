@@ -13,6 +13,10 @@ const valFallback = " ";
 const TARGETS = []; // array of arrys
 let WS_DATA = [];
 
+btnChoose.addEventListener("click", () => fileInput.click());
+btnPrint.addEventListener("click", () => window.print());
+btnPrint.disabled = true;
+
 // functions and main logic
 function buildDataTab(data, sheetNames) {
   data.forEach((d, key) => {
@@ -128,12 +132,11 @@ function extractPagedData(pagedData, headerOnly = false) {
   return extractedData;
 }
 
-btnChoose.addEventListener("click", () => fileInput.click());
-btnPrint.addEventListener("click", () => window.print());
-
 fileInput.onchange = async (e) => {
   const file = e.target.files[0];
+
   if (!file) return;
+
   fileNameLabel.textContent = file.name;
   fileNameLabel.classList.add("has-file");
   btnPrint.removeAttribute("disabled");
