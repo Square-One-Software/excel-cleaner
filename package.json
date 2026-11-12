@@ -1,0 +1,29 @@
+{
+  "name": "excel_cleaner",
+  "version": "1.0.0",
+  "description": "A free and opensource excel data cleaning, filterning and manipulating tool that can be used to filter out excel spreedsheet and generate a printable PDF file.",
+  "keywords": [
+    "excel",
+    "tools"
+  ],
+  "homepage": "https://github.com/Square-One-Software/excel-cleaner#readme",
+  "bugs": {
+    "url": "https://github.com/Square-One-Software/excel-cleaner/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Square-One-Software/excel-cleaner.git"
+  },
+  "license": "ISC",
+  "author": "wingz",
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^8.3.8"
+  }
+}
