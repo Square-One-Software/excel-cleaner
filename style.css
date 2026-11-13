@@ -320,13 +320,21 @@ h1 {
 }
 
 @media print {
-  .tagline,
-  .seo-blurb {
-    display: none !important;
+  @page {
+    margin: 0;
+  }
+
+  body {
+    margin: 1.6cm;
   }
 
   body * {
     visibility: hidden;
+  }
+
+  .tagline,
+  .seo-blurb {
+    display: none !important;
   }
 
   .tab-content.active,
