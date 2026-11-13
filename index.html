@@ -3,15 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Excel Clener</title>
+    <title>Excel Cleaner — Filter Columns & Print to PDF (Free)</title>
+    <meta name="description" content="Free browser tool to open Excel files, pick columns, clean the view, and print to PDF. Runs fully on your device—no upload, no account.">
     <meta name="author" content="wingz">
-    <meta name="description" content="A free tool for manipulating, filtering or cleaning Excel spreedsheet before generating it as a printale PDF">
-    <meta name="keywords" content="excel, excel cleaner, clean excel, excel tool">
+    <meta name="robots" content="index, follow">
+    <meta name="keywords" content="excel to pdf, filter excel columns, print spreadsheet, free excel cleaner, clean excel online">
+    <meta name="theme-color" content="#1a73e8">
+    <link rel="canonical" href="https://square-one-software.github.io/excel-cleaner/">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://square-one-software.github.io/excel-cleaner/">
+    <meta property="og:title" content="Excel Cleaner — Filter Columns & Print to PDF (Free)">
+    <meta property="og:description" content="Free browser tool to open Excel files, pick columns, clean the view, and print to PDF. Runs fully on your device—no upload, no account.">
+    <meta property="og:site_name" content="Excel Cleaner">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Excel Cleaner — Filter Columns & Print to PDF (Free)">
+    <meta name="twitter:description" content="Free browser tool to open Excel files, pick columns, clean the view, and print to PDF. Runs fully on your device—no upload, no account.">
+    <link rel="stylesheet" href="style.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Excel Cleaner",
+      "url": "https://square-one-software.github.io/excel-cleaner/",
+      "description": "Free browser tool to open Excel files, pick columns, clean the view, and print to PDF. Runs fully on your device—no upload, no account.",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+      "featureList": [
+        "Open .xls, .xlsx, and .xlsm workbooks",
+        "Multi-sheet preview with tabs",
+        "Filter and select columns before print",
+        "Print or save as PDF from the browser",
+        "Fully client-side processing—files never leave your device"
+      ]
+    }
+    </script>
 </head>
 <body>
     <div class="main">
         <h1>Excel Cleaner</h1>
+        <p class="tagline">Filter spreadsheet data and print to PDF privately in your browser.</p>
         <div class="upload-bar">
             <label for="file-uploader" class="upload-bar__face">
                 <span class="upload-bar__text" id="file-name">Choose an Excel file</span>
@@ -22,6 +53,15 @@
             <button type="button" class="btn" id="btn-choose">Choose file</button>
             <button type="button" class="btn" id="btn-print" disabled>Print</button>
         </div>
+        <section class="seo-blurb" aria-label="About Excel Cleaner">
+            <h2 class="seo-blurb__title">How it works</h2>
+            <ol class="seo-blurb__steps">
+                <li><strong>Upload</strong> an Excel file (.xlsx, .xls, or .xlsm)</li>
+                <li><strong>Select columns</strong> you want to keep on each sheet</li>
+                <li><strong>Print</strong> or save as PDF from your browser</li>
+            </ol>
+            <p class="seo-blurb__privacy">Your files stay on your device. Nothing is uploaded to a server.</p>
+        </section>
     </div>
    
     <div class="tab-container hidden" id="tab-area">

@@ -27,7 +27,7 @@ body {
 }
 
 h1 {
-  margin: 0 0 var(--space-3);
+  margin: 0 0 var(--space-2);
   padding-top: 10vh;
   color: var(--text);
   font-family: var(--font);
@@ -36,6 +36,50 @@ h1 {
   letter-spacing: -0.5px;
   line-height: 1.2;
   text-align: center;
+}
+
+.tagline {
+  margin: 0 0 var(--space-3);
+  max-width: 36em;
+  color: var(--text-secondary);
+  font-size: 18px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.seo-blurb {
+  width: 100%;
+  max-width: 584px;
+  margin: var(--space-5) 0 var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  background: var(--surface-muted);
+  box-sizing: border-box;
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.seo-blurb__title {
+  margin: 0 0 var(--space-2);
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.seo-blurb__steps {
+  margin: 0 0 var(--space-2);
+  padding-left: 1.25em;
+}
+
+.seo-blurb__steps li {
+  margin-bottom: var(--space-1);
+}
+
+.seo-blurb__privacy {
+  margin: 0;
+  color: var(--text-muted);
 }
 
 .main {
@@ -276,6 +320,11 @@ h1 {
 }
 
 @media print {
+  .tagline,
+  .seo-blurb {
+    display: none !important;
+  }
+
   body * {
     visibility: hidden;
   }
