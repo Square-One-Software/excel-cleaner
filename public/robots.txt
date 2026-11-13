@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://square-one-software.github.io/excel-cleaner/sitemap.xml
