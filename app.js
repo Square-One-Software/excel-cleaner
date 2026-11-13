@@ -118,7 +118,7 @@ function convertAllSheets2Json(wb) {
 
 function extractPagedData(pagedData, headerOnly = false) {
   const extractedData = [];
-  for (index in pagedData) {
+  for (const index in pagedData) {
     if (headerOnly) {
       const headerArr = pagedData[index][0];
       const sheetHeaders = fillEmptySlotsWithFallBack(headerArr, colFallback);
