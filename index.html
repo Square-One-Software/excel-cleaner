@@ -51,7 +51,6 @@
         </div>
         <div class="actions">
             <button type="button" class="btn" id="btn-choose">Choose file</button>
-            <button type="button" class="btn" id="btn-print" disabled>Print</button>
         </div>
         <section class="seo-blurb" aria-label="About Excel Cleaner">
             <h2 class="seo-blurb__title">How it works</h2>
@@ -65,7 +64,10 @@
     </div>
    
     <div class="tab-container hidden" id="tab-area">
-        <div class="tabs" id="tab-btn-area">
+        <div class="tab-toolbar">
+            <div class="tabs" id="tab-btn-area">
+            </div>
+            <button type="button" class="btn" id="btn-print" disabled>Print</button>
         </div>
     </div>
     <script type="text/javascript" src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
