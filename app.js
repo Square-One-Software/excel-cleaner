@@ -3,17 +3,43 @@ const fileInput = document.getElementById("file-uploader");
 const fileNameLabel = document.getElementById("file-name");
 const btnChoose = document.getElementById("btn-choose");
 const btnPrint = document.getElementById("btn-print");
+const btnBackTop = document.getElementById("btn-back-top");
 const tabBtnsArea = document.getElementById("tab-btn-area");
 const tabContainer = document.getElementById("tab-area");
 
 const colFallback = "N/A";
 const valFallback = " ";
+const BACK_TOP_THRESHOLD = 80;
 let TARGETS = []; // array of arrys
 let WS_DATA = [];
+let backTopRaf = 0;
 
 btnChoose.addEventListener("click", () => fileInput.click());
 btnPrint.addEventListener("click", () => window.print());
 btnPrint.disabled = true;
+btnBackTop.addEventListener("click", () => {
+  tabBtnsArea.scrollIntoView({behavior: "smooth", block: "start"});
+});
+
+function updateBackTopVisibility() {
+  if (tabContainer.classList.contains("hidden")) {
+    btnBackTop.classList.add("hidden");
+    return;
+  }
+  const top = tabContainer.getBoundingClientRect().top;
+  btnBackTop.classList.toggle("hidden", top >= -BACK_TOP_THRESHOLD);
+}
+
+function onScrollOrResize() {
+  if (backTopRaf) return;
+  backTopRaf = requestAnimationFrame(() => {
+    backTopRaf = 0;
+    updateBackTopVisibility();
+  });
+}
+
+window.addEventListener("scroll", onScrollOrResize, {passive: true});
+window.addEventListener("resize", onScrollOrResize);
 
 // functions and main logic
 function buildDataTab(data, sheetNames) {
@@ -136,6 +162,7 @@ function resetWorkspace() {
   WS_DATA = [];
   tabBtnsArea.innerHTML = "";
   tabContainer.querySelectorAll(".tab-content").forEach((el) => el.remove());
+  btnBackTop.classList.add("hidden");
 }
 
 fileInput.onchange = async (e) => {
@@ -165,6 +192,7 @@ fileInput.onchange = async (e) => {
     tabContainer.classList.remove("hidden");
     WS_DATA = [...filteredData];
     buildDataTab(filteredData, wb.SheetNames);
+    updateBackTopVisibility();
   } catch (error) {
     console.log(error);
   }

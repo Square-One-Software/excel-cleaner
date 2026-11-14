@@ -223,6 +223,19 @@ h1 {
   align-self: center;
 }
 
+.btn-back-top {
+  position: fixed;
+  right: var(--space-4);
+  bottom: var(--space-4);
+  z-index: 10;
+  box-shadow: var(--shadow);
+}
+
+.btn-back-top:hover {
+  border-color: var(--border);
+  box-shadow: 0 2px 8px rgba(32, 33, 36, 0.2);
+}
+
 .tab {
   flex: 1;
   min-width: 0;
@@ -378,6 +391,10 @@ h1 {
   }
 
   .tab-toolbar {
+    display: none !important;
+  }
+
+  .btn-back-top {
     display: none !important;
   }
 
