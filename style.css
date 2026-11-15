@@ -91,6 +91,14 @@ h1 {
   box-sizing: border-box;
 }
 
+.sticky-box {
+  position: sticky;
+  top: 0; /* Required: sets the distance from the top edge where it locks */
+  z-index: 100; /* Keeps it layered above scrolling content */
+  background-color: #ffffff; /* Prevents text underneath from showing through */
+  position: -webkit-sticky; /* Fallback for older Safari versions */
+}
+
 .upload-bar {
   position: relative;
   width: 100%;
