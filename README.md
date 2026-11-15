@@ -2,6 +2,8 @@
 
 A free and opensource excel data cleaning, filterning and manipulating tool that can be used to filter out excel spreedsheet and generate a printable PDF file.
 
+It's live now! [Try it here](https://square-one-software.github.io/excel-cleaner/)
+
 ## TODOS
 
 - filter by rows
