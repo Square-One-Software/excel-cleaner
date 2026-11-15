@@ -18,7 +18,7 @@ btnChoose.addEventListener("click", () => fileInput.click());
 btnPrint.addEventListener("click", () => window.print());
 btnPrint.disabled = true;
 btnBackTop.addEventListener("click", () => {
-  tabBtnsArea.scrollIntoView({behavior: "smooth", block: "start"});
+  tabContainer.scrollIntoView({behavior: "smooth", block: "start"});
 });
 
 function updateBackTopVisibility() {
