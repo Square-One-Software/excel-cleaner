@@ -16,7 +16,6 @@ let backTopRaf = 0;
 
 btnChoose.addEventListener("click", () => fileInput.click());
 btnPrint.addEventListener("click", () => window.print());
-btnPrint.disabled = true;
 btnBackTop.addEventListener("click", () => {
   tabContainer.scrollIntoView({behavior: "smooth", block: "start"});
 });
@@ -174,7 +173,6 @@ fileInput.onchange = async (e) => {
 
   fileNameLabel.textContent = file.name;
   fileNameLabel.classList.add("has-file");
-  btnPrint.removeAttribute("disabled");
 
   try {
     const fileBuffer = await file.arrayBuffer();
