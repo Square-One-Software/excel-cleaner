@@ -61,6 +61,7 @@ function buildDataTab(data, sheetNames) {
     const tabOutputArea = document.createElement("div");
     tabOutputArea.id = `tb-${key}`;
     tabOutputArea.innerHTML = output;
+    tabOutputArea.classList.add("tab-table");
     tabContent.appendChild(tabOutputArea);
     tabContainer.appendChild(tabContent);
   });
