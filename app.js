@@ -13,6 +13,7 @@ const BACK_TOP_THRESHOLD = 80;
 let TARGETS = []; // array of arrys
 let WS_DATA = [];
 let backTopRaf = 0;
+let ROWS_POINTERS = [];
 
 btnChoose.addEventListener("click", () => fileInput.click());
 btnPrint.addEventListener("click", () => window.print());
@@ -40,6 +41,20 @@ function onScrollOrResize() {
 window.addEventListener("scroll", onScrollOrResize, {passive: true});
 window.addEventListener("resize", onScrollOrResize);
 
+// Source - https://stackoverflow.com/a/75988895
+// Posted by Mr. Polywhirl, modified by community. See post 'Timeline' for change history
+// Retrieved 2026-11-19, License - CC BY-SA 4.0
+
+const debounce = (callback, wait) => {
+  let timeoutId = null;
+  return (...args) => {
+    window.clearTimeout(timeoutId);
+    timeoutId = window.setTimeout(() => {
+      callback(...args);
+    }, wait);
+  };
+};
+
 // functions and main logic
 function buildDataTab(data, sheetNames) {
   data.forEach((d, key) => {
@@ -54,7 +69,13 @@ function buildDataTab(data, sheetNames) {
     tabContent.id = sheetNames[key];
 
     TARGETS.push([]); // set selection input state
-    tabContent.appendChild(buildHeaderSelections(d[0], key));
+    ROWS_POINTERS.push([]);
+    const nonEmptyRolls = d.reduce((acc, curr) => {
+      if (curr.length > 0) return acc + 1;
+      return acc;
+    }, 0);
+
+    tabContent.appendChild(buildHeaderSelections(d[0], 1, nonEmptyRolls - 1, key));
 
     const output = buildDataTable(d);
     const tabOutputArea = document.createElement("div");
@@ -81,17 +102,46 @@ function buildDataTab(data, sheetNames) {
   tabContainer.scrollIntoView({behavior: "smooth", block: "nearest"});
 }
 
-function buildHeaderSelections(headers, pageIdx) {
+function buildHeaderSelections(headers, start, end, pageIdx) {
   const form = document.createElement("form");
   form.classList.add("form-container");
   form.id = pageIdx;
+  const formCol1 = document.createElement("div");
+  const formCol2 = document.createElement("div");
+  form.appendChild(formCol1);
+  form.appendChild(formCol2);
 
   let htmlString = "";
   for (const header of headers) {
     htmlString = htmlString.concat(`<label class="chip"><input type="checkbox" name="field" value="${header}" id="${header}" /> <span>${header}</span> </label>`);
   }
 
-  form.innerHTML = htmlString;
+  formCol1.innerHTML = htmlString;
+
+  const fromInput = document.createElement("input");
+  fromInput.name = "start";
+  fromInput.type = "number";
+  fromInput.placeholder = start;
+  fromInput.min = start;
+  fromInput.max = end;
+  fromInput.className = "input-filter";
+  ROWS_POINTERS[pageIdx].push(start);
+
+  const endInput = document.createElement("input");
+  endInput.name = "end";
+  endInput.type = "number";
+  endInput.placeholder = end;
+  endInput.min = start;
+  endInput.max = end;
+  endInput.className = "input-filter";
+  ROWS_POINTERS[pageIdx].push(end);
+
+  fromInput.addEventListener("keyup", (e) => debounce(filterAndUpdateTableListener(e, pageIdx), 300));
+  endInput.addEventListener("keyup", (e) => debounce(filterAndUpdateTableListener(e, pageIdx), 300));
+
+  formCol2.appendChild(fromInput);
+  formCol2.appendChild(endInput);
+
   form.addEventListener("change", (e) => filterAndUpdateTableListener(e, pageIdx));
   return form;
 }
@@ -120,6 +170,17 @@ function filterAndUpdateTableListener(e, pageIdx) {
     }, []);
     const table = document.getElementById(`tb-${pageIdx}`);
     table.innerHTML = buildDataTable(filteredData);
+  }
+
+  if (e.target.type == "number") {
+    const [startPointer, endPointer] = ROWS_POINTERS[pageIdx];
+    const currentData = WS_DATA[pageIdx];
+    const from = e.target.name == "start" ? +e.target.value : startPointer;
+    const end = e.target.name == "end" ? +e.target.value : endPointer;
+    const filteredData = [currentData[0], ...currentData.slice(from, end + 1)];
+    const table = document.getElementById(`tb-${pageIdx}`);
+    table.innerHTML = buildDataTable(filteredData);
+    ROWS_POINTERS[pageIdx] = [from, end];
   }
 }
 
