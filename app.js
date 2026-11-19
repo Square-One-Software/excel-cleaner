@@ -108,6 +108,7 @@ function buildHeaderSelections(headers, start, end, pageIdx) {
   form.id = pageIdx;
   const formCol1 = document.createElement("div");
   const formCol2 = document.createElement("div");
+  formCol2.className = "form-col-filter";
   form.appendChild(formCol1);
   form.appendChild(formCol2);
 
@@ -124,6 +125,7 @@ function buildHeaderSelections(headers, start, end, pageIdx) {
   fromInput.placeholder = start;
   fromInput.min = start;
   fromInput.max = end;
+  fromInput.id = `start-${pageIdx}`;
   fromInput.className = "input-filter";
   ROWS_POINTERS[pageIdx].push(start);
 
@@ -133,13 +135,26 @@ function buildHeaderSelections(headers, start, end, pageIdx) {
   endInput.placeholder = end;
   endInput.min = start;
   endInput.max = end;
+  endInput.id = `end-${pageIdx}`;
   endInput.className = "input-filter";
   ROWS_POINTERS[pageIdx].push(end);
+
+  const fromLabel = document.createElement("label");
+  fromLabel.htmlFor = fromInput.id;
+  fromLabel.className = "input-filter-label";
+  fromLabel.textContent = "From";
+
+  const endLabel = document.createElement("label");
+  endLabel.htmlFor = endInput.id;
+  endLabel.className = "input-filter-label";
+  endLabel.textContent = "To";
 
   fromInput.addEventListener("keyup", (e) => debounce(filterAndUpdateTableListener(e, pageIdx), 300));
   endInput.addEventListener("keyup", (e) => debounce(filterAndUpdateTableListener(e, pageIdx), 300));
 
+  formCol2.appendChild(fromLabel);
   formCol2.appendChild(fromInput);
+  formCol2.appendChild(endLabel);
   formCol2.appendChild(endInput);
 
   form.addEventListener("change", (e) => filterAndUpdateTableListener(e, pageIdx));

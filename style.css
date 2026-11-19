@@ -293,6 +293,50 @@ h1 {
   margin-bottom: var(--space-4);
 }
 
+.form-col-filter {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.input-filter-label {
+  color: var(--text-secondary);
+  font-family: var(--font);
+  font-size: 13px;
+}
+
+.input-filter {
+  width: 88px;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-muted);
+  box-sizing: border-box;
+  color: var(--text-secondary);
+  font-family: var(--font);
+  font-size: 13px;
+  -moz-appearance: textfield;
+}
+
+.input-filter:hover {
+  background: #e8eaed;
+  border-color: #c0c4c8;
+}
+
+.input-filter:focus {
+  border-color: var(--accent);
+  outline: none;
+  background: var(--surface);
+}
+
+.input-filter::-webkit-outer-spin-button,
+.input-filter::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 .chip {
   display: inline-flex;
   align-items: center;
