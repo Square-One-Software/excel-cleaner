@@ -165,10 +165,14 @@ function filterDataByColumn(pageIdx) {
 function filterDataByRow(e, dataFilteredByCol, pageIdx) {
   const [startPointer, endPointer] = ROWS_POINTERS[pageIdx];
   const currentData = dataFilteredByCol;
-  const from = e.target.name == "start" ? +e.target.value : startPointer;
-  const end = e.target.name == "end" ? +e.target.value : endPointer;
-  const filteredData = [currentData[0], ...currentData.slice(from, end + 1)];
-  ROWS_POINTERS[pageIdx] = [from, end];
+
+  let start = e.target.name == "start" ? +e.target.value : startPointer;
+  let end = e.target.name == "end" ? +e.target.value : endPointer;
+  if (start == 0) start = 1;
+  if (end > dataFilteredByCol.length) end = dataFilteredByCol.length - 1;
+
+  const filteredData = [currentData[0], ...currentData.slice(start, end + 1)];
+  ROWS_POINTERS[pageIdx] = [start, end];
   return filteredData;
 }
 
