@@ -157,6 +157,13 @@ function buildHeaderSelections(headers, start, end, pageIdx) {
   formCol2.appendChild(endLabel);
   formCol2.appendChild(endInput);
 
+  const message = document.createElement("p");
+  message.id = `filter-msg-${pageIdx}`;
+  message.className = "filter-message";
+  message.hidden = true;
+  message.setAttribute("role", "status");
+  formCol2.appendChild(message);
+
   form.addEventListener("change", (e) => filterAndUpdateTableListener(e, pageIdx));
   return form;
 }
@@ -177,19 +184,53 @@ function filterDataByColumn(pageIdx) {
   return filteredData;
 }
 
+function getRowRangeError(startVal, endVal, min, max) {
+  const startEmpty = startVal === "";
+  const endEmpty = endVal === "";
+  const start = +startVal;
+  const end = +endVal;
+
+  if (!startEmpty && (Number.isNaN(start) || start < min || start > max)) {
+    return `Row must be between ${min} and ${max}.`;
+  }
+  if (!endEmpty && (Number.isNaN(end) || end < min || end > max)) {
+    return `Row must be between ${min} and ${max}.`;
+  }
+  if (!startEmpty && !endEmpty && start > end) {
+    return "From cannot be greater than To.";
+  }
+  return null;
+}
+
+function updateRangeMessage(pageIdx, startVal, endVal, min, max) {
+  const message = document.getElementById(`filter-msg-${pageIdx}`);
+  const error = getRowRangeError(startVal, endVal, min, max);
+  message.textContent = error ?? "";
+  message.hidden = !error;
+}
+
 function filterDataByRow(e, dataFilteredByCol, pageIdx) {
   const [startPointer, endPointer] = ROWS_POINTERS[pageIdx];
+  const fromInput = document.getElementById(`start-${pageIdx}`);
+  const endInput = document.getElementById(`end-${pageIdx}`);
+  const min = +fromInput.min;
+  const max = +fromInput.max;
   const currentData = dataFilteredByCol;
 
-  let start = e.target.name == "start" ? +e.target.value : startPointer;
-  let end = e.target.name == "end" ? +e.target.value : endPointer;
-  // edge cases
-  if (start == 0) start = 1;
-  if (end > dataFilteredByCol.length || end == 0) end = dataFilteredByCol.length - 1;
+  let start = fromInput.value === "" ? 1 : +fromInput.value;
+  let end = endInput.value === "" ? dataFilteredByCol.length - 1 : +endInput.value;
 
-  const filteredData = [currentData[0], ...currentData.slice(start, end + 1)];
+  if (e.target.classList.contains("input-filter")) updateRangeMessage(pageIdx, fromInput.value, endInput.value, min, max);
+
+  if (Number.isNaN(start) || start < min) start = min;
+  if (start > max) start = max;
+  if (Number.isNaN(end) || end < min) end = min;
+  if (end > max) end = max;
+
+  if (start > end) return [currentData[0], ...currentData.slice(startPointer, endPointer + 1)];
+
   ROWS_POINTERS[pageIdx] = [start, end];
-  return filteredData;
+  return [currentData[0], ...currentData.slice(start, end + 1)];
 }
 
 function filterAndUpdateTableListener(e, pageIdx) {

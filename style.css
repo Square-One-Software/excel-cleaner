@@ -8,6 +8,7 @@
   --surface-muted: #f8f9fa;
   --accent: #1a73e8;
   --accent-soft: #e8f0fe;
+  --error: #d93025;
   --shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
   --font: Arial, sans-serif;
   --space-1: 8px;
@@ -337,6 +338,19 @@ h1 {
   margin: 0;
 }
 
+.filter-message {
+  display: none;
+  flex-basis: 100%;
+  margin: 0;
+  color: var(--error);
+  font-family: var(--font);
+  font-size: 13px;
+}
+
+.filter-message:not([hidden]) {
+  display: block;
+}
+
 .chip {
   display: inline-flex;
   align-items: center;
@@ -455,7 +469,8 @@ h1 {
   }
 
   .tab-content.active input,
-  .tab-content.active label {
+  .tab-content.active label,
+  .tab-content.active .filter-message {
     display: none !important;
   }
 }
