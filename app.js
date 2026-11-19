@@ -146,6 +146,32 @@ function buildHeaderSelections(headers, start, end, pageIdx) {
   return form;
 }
 
+function filterDataByColumn(pageIdx) {
+  const currentData = WS_DATA[pageIdx];
+  const targetIdxs = currentData[0]
+    .map((name, key) => {
+      return TARGETS[pageIdx].includes(name) ? key : -1;
+    })
+    .filter((index) => index !== -1);
+  const filteredData = currentData.reduce((acc, curr) => {
+    const updatedCurr = curr.filter((name, key) => {
+      if (!targetIdxs.includes(key)) return name;
+    });
+    return [...acc, updatedCurr];
+  }, []);
+  return filteredData;
+}
+
+function filterDataByRow(e, dataFilteredByCol, pageIdx) {
+  const [startPointer, endPointer] = ROWS_POINTERS[pageIdx];
+  const currentData = dataFilteredByCol;
+  const from = e.target.name == "start" ? +e.target.value : startPointer;
+  const end = e.target.name == "end" ? +e.target.value : endPointer;
+  const filteredData = [currentData[0], ...currentData.slice(from, end + 1)];
+  ROWS_POINTERS[pageIdx] = [from, end];
+  return filteredData;
+}
+
 function filterAndUpdateTableListener(e, pageIdx) {
   if (e.target.type === "checkbox") {
     const isChecked = e.target.checked;
@@ -155,33 +181,11 @@ function filterAndUpdateTableListener(e, pageIdx) {
       const targetIdx = TARGETS[pageIdx].indexOf(e.target.value);
       if (targetIdx >= 0) TARGETS[pageIdx].splice(targetIdx, 1);
     }
-    // filter out the table data based on updated TARGET
-    const currentData = WS_DATA[pageIdx];
-    const targetIdxs = currentData[0]
-      .map((name, key) => {
-        return TARGETS[pageIdx].includes(name) ? key : -1;
-      })
-      .filter((index) => index !== -1);
-    const filteredData = currentData.reduce((acc, curr) => {
-      const updatedCurr = curr.filter((name, key) => {
-        if (!targetIdxs.includes(key)) return name;
-      });
-      return [...acc, updatedCurr];
-    }, []);
-    const table = document.getElementById(`tb-${pageIdx}`);
-    table.innerHTML = buildDataTable(filteredData);
   }
-
-  if (e.target.type == "number") {
-    const [startPointer, endPointer] = ROWS_POINTERS[pageIdx];
-    const currentData = WS_DATA[pageIdx];
-    const from = e.target.name == "start" ? +e.target.value : startPointer;
-    const end = e.target.name == "end" ? +e.target.value : endPointer;
-    const filteredData = [currentData[0], ...currentData.slice(from, end + 1)];
-    const table = document.getElementById(`tb-${pageIdx}`);
-    table.innerHTML = buildDataTable(filteredData);
-    ROWS_POINTERS[pageIdx] = [from, end];
-  }
+  const dataFilteredByCol = filterDataByColumn(pageIdx);
+  const filteredData = filterDataByRow(e, dataFilteredByCol, pageIdx);
+  const table = document.getElementById(`tb-${pageIdx}`);
+  table.innerHTML = buildDataTable(filteredData);
 }
 
 function buildDataTable(data) {
