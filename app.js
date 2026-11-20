@@ -244,10 +244,14 @@ function filterAndUpdateTableListener(e, pageIdx) {
       if (targetIdx >= 0) TARGETS[pageIdx].splice(targetIdx, 1);
     }
   }
+
   const dataFilteredByCol = filterDataByColumn(pageIdx);
   const filteredData = filterDataByRow(e, dataFilteredByCol, pageIdx);
   const table = document.getElementById(`tb-${pageIdx}`);
   table.innerHTML = buildDataTable(filteredData);
+
+  const isRowFilter = e.target.classList.contains("input-filter");
+  if (isRowFilter) e.target.parentElement.scrollIntoView({behavior: "smooth", block: "start"});
 }
 
 function buildDataTable(data) {
