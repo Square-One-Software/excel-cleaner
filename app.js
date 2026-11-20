@@ -30,6 +30,12 @@ function updateBackTopVisibility() {
   btnBackTop.classList.toggle("hidden", top >= -BACK_TOP_THRESHOLD);
 }
 
+function updateStickyToolbarHeight() {
+  const toolbar = tabContainer.querySelector(".tab-toolbar");
+  if (!toolbar || tabContainer.classList.contains("hidden")) return;
+  tabContainer.style.setProperty("--tab-toolbar-height", `${toolbar.offsetHeight}px`);
+}
+
 function onScrollOrResize() {
   if (backTopRaf) return;
   backTopRaf = requestAnimationFrame(() => {
@@ -39,7 +45,10 @@ function onScrollOrResize() {
 }
 
 window.addEventListener("scroll", onScrollOrResize, {passive: true});
-window.addEventListener("resize", onScrollOrResize);
+window.addEventListener("resize", () => {
+  updateStickyToolbarHeight();
+  onScrollOrResize();
+});
 
 // Source - https://stackoverflow.com/a/75988895
 // Posted by Mr. Polywhirl, modified by community. See post 'Timeline' for change history
@@ -99,6 +108,7 @@ function buildDataTab(data, sheetNames) {
       document.getElementById(target).classList.add("active");
     });
   });
+  updateStickyToolbarHeight();
   tabContainer.scrollIntoView({behavior: "smooth", block: "nearest"});
 }
 
