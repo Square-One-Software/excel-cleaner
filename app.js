@@ -149,8 +149,9 @@ function buildHeaderSelections(headers, start, end, pageIdx) {
   endLabel.className = "input-filter-label";
   endLabel.textContent = "To";
 
-  fromInput.addEventListener("keyup", (e) => debounce(filterAndUpdateTableListener(e, pageIdx), 300));
-  endInput.addEventListener("keyup", (e) => debounce(filterAndUpdateTableListener(e, pageIdx), 300));
+  const onRowFilterKeyUp = debounce((e) => filterAndUpdateTableListener(e, pageIdx), 300);
+  fromInput.addEventListener("keyup", onRowFilterKeyUp);
+  endInput.addEventListener("keyup", onRowFilterKeyUp);
 
   formCol2.appendChild(fromLabel);
   formCol2.appendChild(fromInput);
