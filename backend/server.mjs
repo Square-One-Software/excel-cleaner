@@ -9,7 +9,7 @@ const rateWindowMs = 60_000;
 const rateMaxPosts = 20;
 const hits = new Map();
 
-function json(res, status, body) {
+function handleJsonRes(res, status, body) {
   const payload = JSON.stringify(body);
   res.statusCode = status;
   res.setHeader("Content-Type", "application/json; charset=utf-8");
@@ -82,7 +82,7 @@ const server = createServer(async (req, res) => {
   const method = req.method ?? "GET";
 
   if (url.pathname === "/health" && method === "GET") {
-    json(res, 200, {ok: true});
+    handleJsonRes(res, 200, {ok: true});
     return;
   }
 
@@ -94,7 +94,7 @@ const server = createServer(async (req, res) => {
     }
 
     if (method === "GET") {
-      json(res, 200, statsBody(getCount()));
+      handleJsonRes(res, 200, statsBody(getCount()));
       return;
     }
 
@@ -102,7 +102,7 @@ const server = createServer(async (req, res) => {
       const ip = clientIp(req);
       if (isRateLimited(ip)) {
         res.setHeader("Retry-After", "60");
-        json(res, 429, {error: "rate limited"});
+        handleJsonRes(res, 429, {error: "rate limited"});
         return;
       }
 
@@ -110,22 +110,22 @@ const server = createServer(async (req, res) => {
         await readBody(req, maxBodyBytes);
       } catch (err) {
         if (err.code === "PAYLOAD_TOO_LARGE") {
-          json(res, 413, {error: "payload too large"});
+          handleJsonRes(res, 413, {error: "payload too large"});
           return;
         }
-        json(res, 400, {error: "bad request"});
+        handleJsonRes(res, 400, {error: "bad request"});
         return;
       }
 
-      json(res, 200, statsBody(increment()));
+      handleJsonRes(res, 200, statsBody(increment()));
       return;
     }
 
-    json(res, 405, {error: "method not allowed"});
+    handleJsonRes(res, 405, {error: "method not allowed"});
     return;
   }
 
-  json(res, 404, {error: "not found"});
+  handleJsonRes(res, 404, {error: "not found"});
 });
 
 function shutdown() {
