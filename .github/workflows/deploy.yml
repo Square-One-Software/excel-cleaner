@@ -5,11 +5,14 @@ on:
   # Runs on pushes targeting the default branch
   push:
     branches: ["main"]
-    paths-ignore:
-      - "README.md"
-      - ".gitignore"
-      - "backend/**"
-      - ".railway/**"
+    paths:
+      - "index.html"
+      - "app.js"
+      - "style.css"
+      - "public/**"
+      - "vite.config.mjs"
+      - "package.json"
+      - "package-lock.json"
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
