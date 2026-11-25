@@ -1,3 +1,7 @@
+// API_CONST
+const END_POINT = import.meta.env.VITE_API_URL;
+const STATS_TIMEOUT_MS = 5000;
+
 // element selection and global states
 const fileInput = document.getElementById("file-uploader");
 const fileNameLabel = document.getElementById("file-name");
@@ -6,6 +10,7 @@ const btnPrint = document.getElementById("btn-print");
 const btnBackTop = document.getElementById("btn-back-top");
 const tabBtnsArea = document.getElementById("tab-btn-area");
 const tabContainer = document.getElementById("tab-area");
+const statDisplay = document.getElementById("stats");
 
 const colFallback = "N/A";
 const valFallback = " ";
@@ -330,7 +335,38 @@ fileInput.onchange = async (e) => {
     WS_DATA = [...filteredData];
     buildDataTab(filteredData, wb.SheetNames);
     updateBackTopVisibility();
+    const count = await fetchStats("POST");
+    if (count != null) renderStats(count);
   } catch (error) {
     console.log(error);
   }
 };
+
+function renderStats(count) {
+  if (!Number.isFinite(count)) return;
+  const valueEl = statDisplay.querySelector(".stats__value");
+  valueEl.textContent = count.toLocaleString();
+  statDisplay.hidden = false;
+}
+
+async function fetchStats(method) {
+  if (!END_POINT) return null;
+  try {
+    const res = await fetch(`${END_POINT}/stats`, {
+      method,
+      signal: AbortSignal.timeout(STATS_TIMEOUT_MS),
+    });
+    if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
+    const data = await res.json();
+    const count = Number(data.filesProcessed);
+    return Number.isFinite(count) ? count : null;
+  } catch (error) {
+    console.error("Fetch failed: ", error);
+    return null;
+  }
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+  const count = await fetchStats("GET");
+  if (count != null) renderStats(count);
+});
