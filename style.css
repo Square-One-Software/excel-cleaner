@@ -48,6 +48,19 @@ h1 {
   text-align: center;
 }
 
+.stats {
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.stats__value {
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
 .seo-blurb {
   width: 100%;
   max-width: 584px;
@@ -441,7 +454,8 @@ h1 {
   }
 
   .tagline,
-  .seo-blurb {
+  .seo-blurb,
+  .stats {
     display: none !important;
   }
 
